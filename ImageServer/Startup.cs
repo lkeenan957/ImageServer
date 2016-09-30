@@ -28,27 +28,28 @@ namespace ImageServer
                 roleManager.Create(role);
            
             }
-
-            else if(!roleManager.RoleExists("Administrator"))
+            
+            if(!roleManager.RoleExists("Administrator"))
             {
                 var role = new IdentityRole();
                 role.Name = "Administrator";
                 roleManager.Create(role);
             }
 
-            else(!roleManager.RoleExists("Moderator"))
+            if(!roleManager.RoleExists("Moderator"))
             {
                 var role = new IdentityRole();
                 role.Name = "Moderator";
                 roleManager.Create(role);
             }
 
-            else(!roleManger.RoleExists("Consumer"))
+            if(!roleManager.RoleExists("Consumer"))
             {
                 var role = new IdentityRole();
                 role.Name = "Consumer";
                 roleManager.Create(role);
             }
+            
         }
     }
 }

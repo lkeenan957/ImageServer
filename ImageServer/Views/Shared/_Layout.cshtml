@@ -22,6 +22,19 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    @if (User.IsInRole("Provider"))
+                    {
+                    <li>@Html.ActionLink("Upload", "Index", "Upload")</li>
+                    }
+
+                    @if (User.IsInRole("Provider"))
+                    {
+                        <li>@Html.ActionLink("Download Report", "Index", "DownloadReport")</li>
+                    }
+                    @if (User.IsInRole("Moderator"))
+                    {
+                        <li>@Html.ActionLink("Moderate Images", "Index", "Moderate")</li>
+                    }
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                 </ul>

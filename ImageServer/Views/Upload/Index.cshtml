@@ -5,11 +5,23 @@
 
 <h2>Index</h2>
 
-@using (Html.BeginForm("Index", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Index", "Upload", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    <label for="file">Upload Image:</label>
-    <input type="file" name="file" id="file"/><br /><br />
-    <input type="submit" value="Upload Image"/>
+    <!--I add few lines, but dont know how to link it to the database with these values-->
+    <form>
+        <label for="file">Upload Image:</label>
+        <input type="file" name="file" id="file" /><br /><br />
 
-    @ViewBag.Message
+        Name of the Image: <br />
+        <input type="text" name="ImageName" maxlength="50" /><br /><br />
+
+        Tags for the image: <br />
+        <input type="text" name="ImageTag" maxlength="200" /><br /><br />
+
+        <input type="submit" value="Upload Image" />
+        <br /><br />
+
+        @ViewBag.Message
+    </form>
+
 }

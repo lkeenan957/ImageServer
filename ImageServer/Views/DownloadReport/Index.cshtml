@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+@using (Html.BeginForm("Index", "DownloadReport", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <!--I add few lines, but dont know how to link it to the database with these values-->
+    <form>
+        <h1>REPORT ON DOWNLOADED IMAGE</h1>
+        <div class="report">
+            <button onclick="myFunction" class="dropbtn">Time Period</button>
+            <div id="myDropdown" class="dropdown-content">
+                <a href="#">1 day</a>
+                <a href="#">1 week</a>
+                <a href="#">1 month</a>
+                <a href="#">1 year</a>
+            </div>
+        </div>
+        <table style="width:100%">
+            <tr>
+                <th>Image</th>
+                <th colspan="2">Image Name</th>
+                <th colspan="3">No of times download</th>
+            </tr>
+        </table>
+
+        @ViewBag.Message
+    </form>
+
+}
