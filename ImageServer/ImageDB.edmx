@@ -5,6 +5,15 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="DownloadLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ImageId" Type="int" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" />
+          <Property Name="DownloadDate" Type="datetime" />
+        </EntityType>
         <EntityType Name="ImageUpload">
           <Key>
             <PropertyRef Name="Id" />
@@ -19,8 +28,25 @@
           <Property Name="CreateDate" Type="datetime" />
           <Property Name="UpdateDate" Type="datetime" />
         </EntityType>
+        <Association Name="FK_ImageId">
+          <End Role="ImageUpload" Type="Self.ImageUpload" Multiplicity="0..1" />
+          <End Role="DownloadLog" Type="Self.DownloadLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ImageUpload">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DownloadLog">
+              <PropertyRef Name="ImageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="DownloadLog" EntityType="Self.DownloadLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ImageUpload" EntityType="Self.ImageUpload" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ImageId" Association="Self.FK_ImageId">
+            <End Role="ImageUpload" EntitySet="ImageUpload" />
+            <End Role="DownloadLog" EntitySet="DownloadLog" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -39,10 +65,38 @@
           <Property Name="UpdateDate" Type="DateTime" Precision="3" />
           <Property Name="ismoderated" Type="Boolean" />
           <Property Name="isapproved" Type="Boolean" />
+          <NavigationProperty Name="DownloadLogs" Relationship="Model.FK_ImageId" FromRole="ImageUpload" ToRole="DownloadLog" />
         </EntityType>
         <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="ImageUploads" EntityType="Self.ImageUpload" />
+          <EntitySet Name="DownloadLogs" EntityType="Model.DownloadLog" />
+          <AssociationSet Name="FK_ImageId" Association="Model.FK_ImageId">
+            <End Role="ImageUpload" EntitySet="ImageUploads" />
+            <End Role="DownloadLog" EntitySet="DownloadLogs" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="DownloadLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ImageId" Type="Int32" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="DownloadDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="ImageUpload" Relationship="Model.FK_ImageId" FromRole="DownloadLog" ToRole="ImageUpload" />
+        </EntityType>
+        <Association Name="FK_ImageId">
+          <End Type="Model.ImageUpload" Role="ImageUpload" Multiplicity="0..1" />
+          <End Type="Model.DownloadLog" Role="DownloadLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ImageUpload">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DownloadLog">
+              <PropertyRef Name="ImageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -61,6 +115,16 @@
                 <ScalarProperty Name="ImageTags" ColumnName="ImageTags" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DownloadLogs">
+            <EntityTypeMapping TypeName="Model.DownloadLog">
+              <MappingFragment StoreEntitySet="DownloadLog">
+                <ScalarProperty Name="DownloadDate" ColumnName="DownloadDate" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ImageId" ColumnName="ImageId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

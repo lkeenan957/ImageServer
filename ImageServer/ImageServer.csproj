@@ -177,6 +177,9 @@
     <Compile Include="Controllers\ModerateController.cs" />
     <Compile Include="Controllers\UploadController.cs" />
     <Compile Include="database\dbhelper.cs" />
+    <Compile Include="DownloadLog.cs">
+      <DependentUpon>ImageDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -199,8 +202,10 @@
       <DependentUpon>ImageDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\DownLoadcount.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\ModerateImages.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Views\Upload\WebForm1.aspx.cs">

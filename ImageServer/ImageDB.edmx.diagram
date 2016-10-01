@@ -6,6 +6,8 @@
     <edmx:Diagrams>
       <Diagram DiagramId="922db916462b484d9f6560ec39c1e3db" Name="Diagram1">
         <EntityTypeShape EntityType="Model.ImageUpload" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.DownloadLog" Width="1.5" PointX="3.625" PointY="1.75" />
+        <AssociationConnector Association="Model.FK_ImageId" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.IO;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using ImageServer.Models;
 
 namespace ImageServer.Controllers
 {
@@ -16,30 +17,10 @@ namespace ImageServer.Controllers
         // GET: DownloadReport
         public ActionResult Index()
         {
-            return View();
+            List<DownLoadcount> dlc = db.Getuserdownloadedimage(User.Identity.GetUserId());
+            return View(dlc);
         }
-
-        /*code for handle download report
-        [HttpGet]
-        public ActionResult Index()
-        {
-           
-                ViewBag.Message = "File uploaded successfully";
-                }
-                catch (Exception ex)
-                {
-
-                    ViewBag.Message = "Error: " + ex.Message.ToString();
-                }
-            }
-            else
-            {
-                ViewBag.Message = "You have not specified a file";
-            }
-
-            return View();
-        };
-        */
+        
 
         // GET: DownloadReport/Details/5
         public ActionResult Details(int id)

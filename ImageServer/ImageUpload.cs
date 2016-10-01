@@ -14,6 +14,12 @@ namespace ImageServer
     
     public partial class ImageUpload
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public ImageUpload()
+        {
+            this.DownloadLogs = new HashSet<DownloadLog>();
+        }
+    
         public int Id { get; set; }
         public string UserId { get; set; }
         public string ImageName { get; set; }
@@ -23,5 +29,8 @@ namespace ImageServer
         public Nullable<System.DateTime> UpdateDate { get; set; }
         public Nullable<bool> ismoderated { get; set; }
         public Nullable<bool> isapproved { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DownloadLog> DownloadLogs { get; set; }
     }
 }

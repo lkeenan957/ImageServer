@@ -1,33 +1,53 @@
-﻿
+﻿@using ImageServer.Models;
+@using System.IO;
+@model List<DownLoadcount>
+
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
-
 @using (Html.BeginForm("Index", "DownloadReport", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    <!--I add few lines, but dont know how to link it to the database with these values-->
-    <form>
-        <h1>REPORT ON DOWNLOADED IMAGE</h1>
-        <div class="report">
-            <button onclick="myFunction" class="dropbtn">Time Period</button>
-            <div id="myDropdown" class="dropdown-content">
-                <a href="#">1 day</a>
-                <a href="#">1 week</a>
-                <a href="#">1 month</a>
-                <a href="#">1 year</a>
-            </div>
-        </div>
-        <table style="width:100%">
-            <tr>
-                <th>Image</th>
-                <th colspan="2">Image Name</th>
-                <th colspan="3">No of times download</th>
-            </tr>
-        </table>
+{<div>
+
+    <div class="dropdown">
+        <button class="btn btn-primary dropdown-toggle" type="button" date-toggle="dropdown">
+            Time Period
+            <span class="caret"></span>
+        </button>
+        <ul class="timeperiod-menu">
+            <li><a href="#">1 day</a></li>
+            <li><a href="#">1 week</a></li>
+            <li><a href="#">1 month</a></li>
+            <li><a href="#">1 year</a></li>
+        </ul>
+    </div>
+
+     <div class="report">
+         <table>
+             <h1>REPORT ON DOWNLOADED IMAGES</h1>
+             <tr>
+                 <th width="100" height="100" align="center"><u><font size="2"><b>IMAGE</b></font></u></th>
+                 <th colspan="2" width="250" align="center"><u><font size="2"><b>IMAGE NAME</b></font></u></th>
+                 <th colspan="3" width="100" align="center"><u><font size="2"><b>IMAGE ID</b></font></u></th>
+                 <th colspan="4" width="250" align="center"><u><font size="2"><b>NO OF TIMES DOWNLOADED</b></font></u></th>
+             </tr>
+
+             @foreach (DownLoadcount i in Model)
+             {
+                 <tr>
+                     <td><img src="@i.imagepath" width="75" height="75" /></td>
+                     <td colspan="2">@Path.GetFileName(i.imagepath)</td>
+                     <td colspan="3">@i.imageid</td>
+                     <td colspan="4">@i.downloadcount</td>
+                 </tr>
+
+             }
+         </table>
+     </div>
+    </div>
+
 
         @ViewBag.Message
-    </form>
+  
 
 }

@@ -6,10 +6,18 @@ using System.Web.Mvc;
 
 namespace ImageServer.Controllers
 {
-    public class ModerateController : Controller
+    [Authorize(Roles = "Moderator")]
+    public class ModerateController : BaseController
     {
         // GET: Moderate
         public ActionResult Index()
+        {
+            List<ModerateImages> mi = db.Getuserdownloadedimage(User.Identity.GetUserId());
+            return View(mi);
+        }
+
+            // GET: Moderate
+            public ActionResult Index()
         {
             return View();
         }
