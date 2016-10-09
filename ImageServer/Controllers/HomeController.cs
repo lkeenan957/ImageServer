@@ -6,12 +6,16 @@ using System.Web.Mvc;
 
 namespace ImageServer.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
-        public ActionResult Index()
-        {
-            return View();
-        }
+
+        //Get Images for consumers
+       // public ActionResult Index()
+       // {
+          // List< ImageUpload > mi = db.GetAllImages();
+            //return View(mi);
+        //}
+
 
         public ActionResult About()
         {

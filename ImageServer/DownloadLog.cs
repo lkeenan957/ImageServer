@@ -20,5 +20,6 @@ namespace ImageServer
         public Nullable<System.DateTime> DownloadDate { get; set; }
     
         public virtual ImageUpload ImageUpload { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
     }
 }

@@ -12,5 +12,7 @@ namespace ImageServer.Models
         public string imagename { get; set; }
         public string imagepath { get; set; }
         // it can be nullable
+
+        
     }
 }

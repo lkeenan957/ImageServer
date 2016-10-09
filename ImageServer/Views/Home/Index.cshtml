@@ -1,4 +1,10 @@
-﻿@{
+﻿
+@using ImageServer.Models;
+@using System.IO;
+
+@model List<ImageUpload>
+
+@{
     ViewBag.Title = "Home Page";
 }
 
@@ -6,9 +12,21 @@
     <h1>PHOTO MAGIC</h1>
     <p><img src="~/App_Data/front.jpg" height="46" width="46" /></p>
     <!--<p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-    -->
+    NEED A BACKGROUND IMAGE IF ITS POSSIBLE
+        -->
 </div>
-
+<!--
+<div class="content">
+    <ul>
+        foreach (ImageUpload m in Model)
+        {
+        
+           <li><img src="m.ImagePath" width="200" height="200" />Path.GetFileName(m.ImageName)</li>
+        }
+    </ul>
+</div>
+    -->
+<!--
 <div class="row">
     <div class="col-md-4">
         <h2>Customized Photos!</h2>
@@ -28,3 +46,4 @@
         <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
     </div>
 </div>
+    -->

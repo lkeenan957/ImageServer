@@ -7,10 +7,12 @@ using System.IO;
 using ImageServer;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using ImageServer.Utilities;
 
 namespace ImageServer.Controllers
 {
     [Authorize(Roles = "Provider")]
+ 
     public class UploadController : BaseController
     {
      
@@ -25,41 +27,21 @@ namespace ImageServer.Controllers
         [HttpPost]
         public ActionResult Index(HttpPostedFileBase file, string ImageName, string ImageTag)
         {
-            if (file != null && file.ContentLength > 0)
+            UploadHelper helper = new UploadHelper();
+
+            string filePath = Path.Combine(Server.MapPath("~/Images"), Path.GetFileName(file.FileName));
+            string userId = User.Identity.GetUserId();
+            string scheme = Request.Url.Scheme;
+            string authority = Request.Url.Authority;
+
+            if (helper.UploadImage(file, ImageName, ImageTag, filePath, scheme, authority, userId))
             {
-             
-                try
-                {
-                    string path = Path.Combine(Server.MapPath("~/Images"), Path.GetFileName(file.FileName));
-
-                    ImageUpload iu = new ImageUpload();
-                    iu.ImageName = ImageName;
-                    iu.UserId = User.Identity.GetUserId();
-                    iu.ImagePath = Request.Url.Scheme + "://" + Request.Url.Authority + "/Images/" + Path.GetFileName(file.FileName);
-                    iu.ImageTags = ImageTag;
-                    iu.isapproved = false;
-                    iu.ismoderated = false;
-                    iu.CreateDate = DateTime.Now;
-                    iu.UpdateDate = DateTime.Now;
-
-                    file.SaveAs(path);
-
-                    // Put in code to store image metadata in DB.
-                    db.saveuserimage(iu);
-
-                    ViewBag.Message = "File uploaded successfully";
-                }
-                catch (Exception ex)
-                {
-
-                    ViewBag.Message = "Error: " + ex.Message.ToString();
-                }
+                ViewBag.Message = "File uploaded successfully";
             }
             else
             {
-                ViewBag.Message = "You have not specified a file";
+                ViewBag.Message = "Error: There was an issue with file upload.";
             }
-
             return View();
         }
 

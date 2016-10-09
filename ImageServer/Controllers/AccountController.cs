@@ -159,7 +159,7 @@ namespace ImageServer.Controllers
 
                     var goodUser = UserManager.FindByEmail(model.Email);
 
-                    UserManager.AddToRole(goodUser.Id, "Provider");
+                    UserManager.AddToRole(goodUser.Id, "Consumer");
 
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
 

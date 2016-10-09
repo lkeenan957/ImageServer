@@ -27,5 +27,6 @@ namespace ImageServer
     
         public virtual DbSet<ImageUpload> ImageUploads { get; set; }
         public virtual DbSet<DownloadLog> DownloadLogs { get; set; }
+        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
     }
 }

@@ -1,0 +1,64 @@
+﻿using ImageServer.Models;
+using System.IO;
+
+@model List<ImageUpload>
+
+@{
+    ViewBag.Title = "Index";
+}
+<h1>List of ALL Images</h1>
+<table>
+    
+    <tr>
+        <th width="100" height="100" align="center"><u><font size="2"><b>IMAGE</b></font></u></th>
+        <th colspan="2" width="150" align="center"><u><font size="2"><b>IMAGE NAME</b></font></u></th>
+        <th colspan="3" width="150" align="center"><u><font size="2"><b>IMAGE ID</b></font></u></th>
+        <th colspan="4" width="150" align="center"><u><font size="2"><b>IMAGE TAG</b></font></u></th>
+        <th colspan="5" width="150" align="center"><u><font size="2"><b>MODERATED</b></font></u></th>
+        <th colspan="6" width="150" align="center"><u><font size="2"><b>APPROVED</b></font></u></th>
+        <th colspan="6" width="150" align="center"><u><font size="2"><b>Update</b></font></u></th>
+        <th colspan="6" width="150" align="center"><u><font size="2"><b>Delete</b></font></u></th>
+        
+    </tr>
+
+    @foreach (ImageUpload m in Model)
+    {
+        using (Html.BeginForm("Index", "ManageImage", FormMethod.Post, new { enctype = "multipart/form-data"}))
+        {
+            <tr>
+                <td><img src="@m.ImagePath" width="75" height="75" /></td>
+                <td colspan="2">@Path.GetFileName(m.ImageName)</td>
+                <td colspan="3">@m.Id @Html.Hidden("imageid", @m.Id)</td>
+                <td colspan="4"><input type="text" id="tags" name="tags" width="400" value="@m.ImageTags" /></td>
+                <td colspan="5"><select name="ismoderated"><option value="Yes" @Html.Raw(m.ismoderated.Value ? "selected":"")>Yes</option> <option value="No" @Html.Raw(m.ismoderated.Value ? "" : "selected")>No</option></select></td>
+                <td colspan="6"><select name="isapproved"><option value="Yes" @Html.Raw(m.isapproved.Value ? "selected" : "")>Yes</option> <option value="No" @Html.Raw(m.isapproved.Value ? "" : "selected")>No</option></select></td>
+                <td colspan="7"><input type="submit" id="update" name="submit" value="Update" /></td>
+                <td colspan="7"><input type="submit" id="delete" name="submit" value="Delete" /></td>
+            </tr>
+        }
+
+    }
+
+</table>
+
+<h2>Upload Images</h2>
+
+
+<!--I add few lines, but dont know how to link it to the database with these values-->
+@using (Html.BeginForm("Upload", "ManageImage", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+<label for="file">Upload Image:</label>
+<input type="file" name="file" id="file" /><br /><br />
+
+<label>
+    Name of the Image: </label><br />
+    <input type="text" name="ImageName" maxlength="50" /><br /><br />
+
+    <label>
+        Tags for the image: </label><br />
+        <input type="text" name="ImageTag" maxlength="200" /><br /><br />
+
+        <input type="submit" value="Upload Image" />
+        <br /><br />
+
+}

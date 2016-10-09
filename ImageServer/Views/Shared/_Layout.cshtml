@@ -6,6 +6,7 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
 
 </head>
 <body>
@@ -35,6 +36,22 @@
                     {
                         <li>@Html.ActionLink("Moderate Images", "Index", "Moderate")</li>
                     }
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        <li>@Html.ActionLink("Upload Images", "Index", "Upload")</li>
+                    }
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        <li>@Html.ActionLink("Manage Images", "Index", "ManageImage")</li>
+                    }
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        <li>@Html.ActionLink("Manage Users", "Index", "ManageUsers")</li>
+                    }
+                    @if (User.IsInRole("Consumer"))
+                    {
+                        <li>@Html.ActionLink("Search Images", "Index", "Consumer")</li>
+                    }
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                 </ul>
@@ -50,7 +67,7 @@
         </footer>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
+   
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>

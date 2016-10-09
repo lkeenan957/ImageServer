@@ -8,6 +8,9 @@
         <EntityTypeShape EntityType="Model.ImageUpload" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.DownloadLog" Width="1.5" PointX="3.625" PointY="1.75" />
         <AssociationConnector Association="Model.FK_ImageId" />
+        <EntityTypeShape EntityType="Model.AspNetUser" Width="1.5" PointX="5.875" PointY="1.375" />
+        <AssociationConnector Association="Model.FK_ImageUpload" />
+        <AssociationConnector Association="Model.FK_UserId" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

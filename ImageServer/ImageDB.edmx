@@ -5,6 +5,23 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="datetime" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
         <EntityType Name="DownloadLog">
           <Key>
             <PropertyRef Name="Id" />
@@ -40,11 +57,44 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ImageUpload">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="ImageUpload" Type="Self.ImageUpload" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ImageUpload">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="DownloadLog" Type="Self.DownloadLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DownloadLog">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DownloadLog" EntityType="Self.DownloadLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ImageUpload" EntityType="Self.ImageUpload" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_ImageId" Association="Self.FK_ImageId">
             <End Role="ImageUpload" EntitySet="ImageUpload" />
+            <End Role="DownloadLog" EntitySet="DownloadLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ImageUpload" Association="Self.FK_ImageUpload">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="ImageUpload" EntitySet="ImageUpload" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserId" Association="Self.FK_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="DownloadLog" EntitySet="DownloadLog" />
           </AssociationSet>
         </EntityContainer>
@@ -66,12 +116,22 @@
           <Property Name="ismoderated" Type="Boolean" />
           <Property Name="isapproved" Type="Boolean" />
           <NavigationProperty Name="DownloadLogs" Relationship="Model.FK_ImageId" FromRole="ImageUpload" ToRole="DownloadLog" />
+          <NavigationProperty Name="AspNetUser" Relationship="Model.FK_ImageUpload" FromRole="ImageUpload" ToRole="AspNetUser" />
         </EntityType>
         <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="ImageUploads" EntityType="Self.ImageUpload" />
           <EntitySet Name="DownloadLogs" EntityType="Model.DownloadLog" />
           <AssociationSet Name="FK_ImageId" Association="Model.FK_ImageId">
             <End Role="ImageUpload" EntitySet="ImageUploads" />
+            <End Role="DownloadLog" EntitySet="DownloadLogs" />
+          </AssociationSet>
+          <EntitySet Name="AspNetUsers" EntityType="Model.AspNetUser" />
+          <AssociationSet Name="FK_ImageUpload" Association="Model.FK_ImageUpload">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="ImageUpload" EntitySet="ImageUploads" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserId" Association="Model.FK_UserId">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
             <End Role="DownloadLog" EntitySet="DownloadLogs" />
           </AssociationSet>
         </EntityContainer>
@@ -84,6 +144,7 @@
           <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="DownloadDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="ImageUpload" Relationship="Model.FK_ImageId" FromRole="DownloadLog" ToRole="ImageUpload" />
+          <NavigationProperty Name="AspNetUser" Relationship="Model.FK_UserId" FromRole="DownloadLog" ToRole="AspNetUser" />
         </EntityType>
         <Association Name="FK_ImageId">
           <End Type="Model.ImageUpload" Role="ImageUpload" Multiplicity="0..1" />
@@ -94,6 +155,49 @@
             </Principal>
             <Dependent Role="DownloadLog">
               <PropertyRef Name="ImageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="AspNetUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ImageUploads" Relationship="Model.FK_ImageUpload" FromRole="AspNetUser" ToRole="ImageUpload" />
+          <NavigationProperty Name="DownloadLogs" Relationship="Model.FK_UserId" FromRole="AspNetUser" ToRole="DownloadLog" />
+        </EntityType>
+        <Association Name="FK_ImageUpload">
+          <End Type="Model.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
+          <End Type="Model.ImageUpload" Role="ImageUpload" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ImageUpload">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserId">
+          <End Type="Model.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
+          <End Type="Model.DownloadLog" Role="DownloadLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DownloadLog">
+              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -124,6 +228,24 @@
                 <ScalarProperty Name="DownloadDate" ColumnName="DownloadDate" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="ImageId" ColumnName="ImageId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="Model.AspNetUser">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

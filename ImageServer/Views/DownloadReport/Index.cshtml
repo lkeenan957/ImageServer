@@ -5,23 +5,19 @@
 @{
     ViewBag.Title = "Index";
 }
+<script type="text/javascript">
+    $(function(){
+        $('#startdate').datepicker();
+        $('#enddate').datepicker();
+    })
+
+</script>
 
 @using (Html.BeginForm("Index", "DownloadReport", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {<div>
 
-    <div class="dropdown">
-        <button class="btn btn-primary dropdown-toggle" type="button" date-toggle="dropdown">
-            Time Period
-            <span class="caret"></span>
-        </button>
-        <ul class="timeperiod-menu">
-            <li><a href="#">1 day</a></li>
-            <li><a href="#">1 week</a></li>
-            <li><a href="#">1 month</a></li>
-            <li><a href="#">1 year</a></li>
-        </ul>
-    </div>
-
+   <label>Start Date</label><input type="text" id="startdate" name="startdate" width="300" /><label>End Date</label><input type="text" id="enddate" name="enddate" width="300" /><br /><br />
+    <input type="submit" value="Search by Dates" />
      <div class="report">
          <table>
              <h1>REPORT ON DOWNLOADED IMAGES</h1>

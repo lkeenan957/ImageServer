@@ -22,3 +22,19 @@ select,
 textarea {
     max-width: 280px;
 }
+
+content{
+        width: 1000px;
+        margin-left:auto;
+        margin-right:auto;
+}
+
+#content ul{
+    list-style-type:none;
+}
+#content li{
+    float: right;
+    width: 200px;
+    display: block;
+    margin-right: 40px;
+}

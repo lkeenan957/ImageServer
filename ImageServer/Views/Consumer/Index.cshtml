@@ -1,0 +1,42 @@
+﻿
+@model List<ImageUpload>
+
+@{
+    ViewBag.Title = "Consumer";
+}
+
+<h2>Consumer</h2>
+
+@using (Html.BeginForm("Index", "Consumer", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{ 
+    <label>Search By Image Tags : </label> <input type="text" value="tags" name="tags" />@:<input type="submit" />
+}
+
+@if (Model != null)
+{
+    <h1>REPORT ON DOWNLOADED IMAGES</h1>
+    <table>
+        
+        <tr>
+            <th width="100" height="100" align="center"><u><font size="2"><b>IMAGE</b></font></u></th>
+            <th colspan="2" width="250" align="center"><u><font size="2"><b>IMAGE NAME</b></font></u></th>
+            <th colspan="3" width="100" align="center"><u><font size="2"><b>IMAGE ID</b></font></u></th>
+            <th colspan="4" width="250" align="center"><u><font size="2"><b>DOWNLOAD</b></font></u></th>
+        </tr>
+
+        @foreach (ImageUpload i in Model)
+        {
+            using (Html.BeginForm("DownloadImage", "Consumer", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            { 
+            <tr>
+                <td><img src="@i.ImagePath" width="75" height="75" /></td>
+                <td colspan="2">@Path.GetFileName(i.ImagePath)</td>
+                <td colspan="3">"@i.Id" @Html.Hidden("imageid",i.Id)@Html.Hidden("imagepath", i.ImagePath)</td>
+                <td colspan="4"><input type="submit" value="Download" /></td>
+            </tr>
+            }
+
+        }
+    </table>
+
+}
