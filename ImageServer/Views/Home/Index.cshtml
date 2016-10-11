@@ -23,7 +23,8 @@
 
                        <th colspan="2" width="250" align="center"><font size="4"><b>IMAGE NAME</b></font></th>
                        <th colspan="3" width="100" align="center"><font size="4"><b>IMAGE ID</b></font></th>
-                       <th colspan="4" width="250" align="center"><font size="4"><b>DOWNLOAD</b></font></th>
+                       <th colspan="4" width="100" align="center"><font size="4"><b>IMAGE TAG</b></font></th>
+                       <th colspan="5" width="250" align="center"><font size="4"><b>DOWNLOAD</b></font></th>
                </tr>
 
                    @foreach (ImageUpload i in Model)
@@ -34,7 +35,8 @@
                        <td><img src="@i.ImagePath" width="200" height="200" /></td>
                        <td colspan="2">@Path.GetFileName(i.ImagePath)</td>
                        <td colspan="3">"@i.Id" @Html.Hidden("imageid",i.Id)@Html.Hidden("imagepath", i.ImagePath)</td>
-                       <td colspan="4"><input type="submit" value="Download" /></td>
+                       <td colspan="4">"@i.ImageTags</td>
+                       <td colspan="5"><input type="submit" value="Download" /></td>
                 
                    </tr>
                    }

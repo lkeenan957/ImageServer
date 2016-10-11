@@ -1,23 +1,45 @@
-﻿using ImageServer.Models;
+﻿<!--using ImageServer.Models;
 using System.IO;
-
+-->
 @model List<ImageUpload>
 
 @{
     ViewBag.Title = "Index";
 }
-<h1>List of ALL Images</h1>
+<h1>UPLOAD IMAGES</h1>
+        <!--I add few lines, but dont know how to link it to the database with these values-->
+        @using (Html.BeginForm("Upload", "ManageImage", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+        <label for="file">Upload Image:</label>
+        <input type="file" name="file" id="file" /><br /><br />
+
+        <label>
+            Name of the Image:
+        </label><br />
+        <input type="text" name="ImageName" maxlength="50" /><br /><br />
+
+        <label>
+            Tags for the image:
+        </label><br />
+        <input type="text" name="ImageTag" maxlength="200" /><br /><br />
+
+        <input type="submit" value="Upload Image" />
+        <br /><br />
+
+        }
+
+<h1>LIST OF ALL IMAGES</h1>
 <table>
     
     <tr>
-        <th width="100" height="100" align="center"><u><font size="2"><b>IMAGE</b></font></u></th>
-        <th colspan="2" width="150" align="center"><u><font size="2"><b>IMAGE NAME</b></font></u></th>
-        <th colspan="3" width="150" align="center"><u><font size="2"><b>IMAGE ID</b></font></u></th>
-        <th colspan="4" width="150" align="center"><u><font size="2"><b>IMAGE TAG</b></font></u></th>
-        <th colspan="5" width="150" align="center"><u><font size="2"><b>MODERATED</b></font></u></th>
-        <th colspan="6" width="150" align="center"><u><font size="2"><b>APPROVED</b></font></u></th>
-        <th colspan="6" width="150" align="center"><u><font size="2"><b>Update</b></font></u></th>
-        <th colspan="6" width="150" align="center"><u><font size="2"><b>Delete</b></font></u></th>
+        <th width="100" height="100" align="center"><u><font size="3"><b>Image</b></font></u></th>
+        <th colspan="2" width="150" align="center"><u><font size="3"><b>Image Name</b></font></u></th>
+        <th colspan="3" width="150" align="center"><u><font size="3"><b>Image ID</b></font></u></th>
+        <th colspan="4" width="150" align="center"><u><font size="3"><b>Image Tag</b></font></u></th>
+        <th colspan="5" width="150" align="center"><u><font size="3"><b>Moderated</b></font></u></th>
+        <th colspan="6" width="150" align="center"><u><font size="3"><b>Approved</b></font></u></th>
+        <th colspan="6" width="150" align="center"><u><font size="3"><b>Update</b></font></u></th>
+        <th colspan="6" width="150" align="center"><u><font size="3"><b>Delete</b></font></u></th>
         
     </tr>
 
@@ -41,24 +63,3 @@ using System.IO;
 
 </table>
 
-<h2>Upload Images</h2>
-
-
-<!--I add few lines, but dont know how to link it to the database with these values-->
-@using (Html.BeginForm("Upload", "ManageImage", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-<label for="file">Upload Image:</label>
-<input type="file" name="file" id="file" /><br /><br />
-
-<label>
-    Name of the Image: </label><br />
-    <input type="text" name="ImageName" maxlength="50" /><br /><br />
-
-    <label>
-        Tags for the image: </label><br />
-        <input type="text" name="ImageTag" maxlength="200" /><br /><br />
-
-        <input type="submit" value="Upload Image" />
-        <br /><br />
-
-}
