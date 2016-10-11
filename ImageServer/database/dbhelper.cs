@@ -302,6 +302,42 @@ namespace ImageServer.database
             }
         }
         
+       public bool RecordUserDownload(string downloadUserId, int imageid)
+        {
+            bool issuccess = false;
+            DownloadLog dl = new DownloadLog() { DownloadDate = DateTime.Now, DownloadUserId = downloadUserId, ImageId = imageid };
+
+            using (dbctx = new Entities())
+            {
+                ImageUpload iu = dbctx.ImageUploads.Find(imageid);
+                dl.UserId = iu.UserId;
+                dbctx.DownloadLogs.Add(dl);
+                dbctx.SaveChanges();
+
+                issuccess = true;
+            }
+
+                return issuccess;
+        }
         #endregion
+
+        public List<ImageUpload> GetAllApprovedImages()
+        {
+            List<ImageUpload> iu = new List<ImageUpload>();
+
+
+            using (dbctx = new Entities())
+            {
+                try
+                {
+                    var temp = from m in dbctx.ImageUploads where m.isapproved == true select m;
+                    return temp.ToList<ImageUpload>();
+                }
+                catch
+                {
+                    throw;
+                }
+            }
+        }
     }
 }

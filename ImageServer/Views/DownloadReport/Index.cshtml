@@ -16,11 +16,21 @@
 @using (Html.BeginForm("Index", "DownloadReport", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {<div>
 
-   <label>Start Date</label><input type="text" id="startdate" name="startdate" width="300" /><label>End Date</label><input type="text" id="enddate" name="enddate" width="300" /><br /><br />
-    <input type="submit" value="Search by Dates" />
+  
      <div class="report">
          <table>
+<br>
+
              <h1>REPORT ON DOWNLOADED IMAGES</h1>
+<br>
+             <label>Start Date</label>
+             <input type="text" id="startdate" name="startdate" width="300" />
+             <label>End Date</label>
+             <input type="text" id="enddate" name="enddate" width="300" />
+             <br />
+             <br />
+             <input type="submit" value="Search by Dates" />
+
              <tr>
                  <th width="100" height="100" align="center"><u><font size="2"><b>IMAGE</b></font></u></th>
                  <th colspan="2" width="250" align="center"><u><font size="2"><b>IMAGE NAME</b></font></u></th>

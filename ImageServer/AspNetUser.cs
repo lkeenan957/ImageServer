@@ -19,6 +19,7 @@ namespace ImageServer
         {
             this.ImageUploads = new HashSet<ImageUpload>();
             this.DownloadLogs = new HashSet<DownloadLog>();
+            this.DownloadLogs1 = new HashSet<DownloadLog>();
         }
     
         public string Id { get; set; }
@@ -33,10 +34,14 @@ namespace ImageServer
         public bool LockoutEnabled { get; set; }
         public int AccessFailedCount { get; set; }
         public string UserName { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ImageUpload> ImageUploads { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DownloadLog> DownloadLogs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DownloadLog> DownloadLogs1 { get; set; }
     }
 }

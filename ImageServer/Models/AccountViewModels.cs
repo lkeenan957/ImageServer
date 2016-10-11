@@ -49,7 +49,7 @@ namespace ImageServer.Models
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Email")]
+        [Display(Name = "Username (EMAIL)")]
         [EmailAddress]
         public string Email { get; set; }
 
@@ -66,7 +66,7 @@ namespace ImageServer.Models
     {
         [Required]
         [EmailAddress]
-        [Display(Name = "Email")]
+        [Display(Name = "Username(Email)")]
         public string Email { get; set; }
 
         [Required]
@@ -79,6 +79,13 @@ namespace ImageServer.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+       
+  
+     
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
     }
 
     public class ResetPasswordViewModel

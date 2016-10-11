@@ -10,11 +10,11 @@ namespace ImageServer.Controllers
     {
 
         //Get Images for consumers
-       // public ActionResult Index()
-       // {
-          // List< ImageUpload > mi = db.GetAllImages();
-            //return View(mi);
-        //}
+        public ActionResult Index()
+       {
+           List<ImageUpload> mi = db.GetAllApprovedImages();
+            return View(mi);
+        }
 
 
         public ActionResult About()

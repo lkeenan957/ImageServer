@@ -32,7 +32,7 @@ content{
 #content ul{
     list-style-type:none;
 }
-#content li{
+#image{
     float: right;
     width: 200px;
     display: block;

@@ -11,6 +11,7 @@
         <EntityTypeShape EntityType="Model.AspNetUser" Width="1.5" PointX="5.875" PointY="1.375" />
         <AssociationConnector Association="Model.FK_ImageUpload" />
         <AssociationConnector Association="Model.FK_UserId" />
+        <AssociationConnector Association="Model.FK_DownloadUserId" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

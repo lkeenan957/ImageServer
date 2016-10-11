@@ -21,6 +21,8 @@
           <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
           <Property Name="AccessFailedCount" Type="int" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="100" />
+          <Property Name="LastName" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="DownloadLog">
           <Key>
@@ -30,6 +32,7 @@
           <Property Name="ImageId" Type="int" />
           <Property Name="UserId" Type="nvarchar" MaxLength="128" />
           <Property Name="DownloadDate" Type="datetime" />
+          <Property Name="DownloadUserId" Type="nvarchar" MaxLength="128" />
         </EntityType>
         <EntityType Name="ImageUpload">
           <Key>
@@ -45,6 +48,18 @@
           <Property Name="CreateDate" Type="datetime" />
           <Property Name="UpdateDate" Type="datetime" />
         </EntityType>
+        <Association Name="FK_DownloadUserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="DownloadLog" Type="Self.DownloadLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DownloadLog">
+              <PropertyRef Name="DownloadUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ImageId">
           <End Role="ImageUpload" Type="Self.ImageUpload" Multiplicity="0..1" />
           <End Role="DownloadLog" Type="Self.DownloadLog" Multiplicity="*" />
@@ -85,6 +100,10 @@
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DownloadLog" EntityType="Self.DownloadLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ImageUpload" EntityType="Self.ImageUpload" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_DownloadUserId" Association="Self.FK_DownloadUserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="DownloadLog" EntitySet="DownloadLog" />
+          </AssociationSet>
           <AssociationSet Name="FK_ImageId" Association="Self.FK_ImageId">
             <End Role="ImageUpload" EntitySet="ImageUpload" />
             <End Role="DownloadLog" EntitySet="DownloadLog" />
@@ -134,6 +153,10 @@
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
             <End Role="DownloadLog" EntitySet="DownloadLogs" />
           </AssociationSet>
+          <AssociationSet Name="FK_DownloadUserId" Association="Model.FK_DownloadUserId">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="DownloadLog" EntitySet="DownloadLogs" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="DownloadLog">
           <Key>
@@ -145,6 +168,8 @@
           <Property Name="DownloadDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="ImageUpload" Relationship="Model.FK_ImageId" FromRole="DownloadLog" ToRole="ImageUpload" />
           <NavigationProperty Name="AspNetUser" Relationship="Model.FK_UserId" FromRole="DownloadLog" ToRole="AspNetUser" />
+          <Property Name="DownloadUserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser1" Relationship="Model.FK_DownloadUserId" FromRole="DownloadLog" ToRole="AspNetUser" />
         </EntityType>
         <Association Name="FK_ImageId">
           <End Type="Model.ImageUpload" Role="ImageUpload" Multiplicity="0..1" />
@@ -176,6 +201,9 @@
           <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="ImageUploads" Relationship="Model.FK_ImageUpload" FromRole="AspNetUser" ToRole="ImageUpload" />
           <NavigationProperty Name="DownloadLogs" Relationship="Model.FK_UserId" FromRole="AspNetUser" ToRole="DownloadLog" />
+          <Property Name="FirstName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="DownloadLogs1" Relationship="Model.FK_DownloadUserId" FromRole="AspNetUser" ToRole="DownloadLog" />
         </EntityType>
         <Association Name="FK_ImageUpload">
           <End Type="Model.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
@@ -198,6 +226,18 @@
             </Principal>
             <Dependent Role="DownloadLog">
               <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DownloadUserId">
+          <End Type="Model.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
+          <End Type="Model.DownloadLog" Role="DownloadLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DownloadLog">
+              <PropertyRef Name="DownloadUserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -225,6 +265,7 @@
           <EntitySetMapping Name="DownloadLogs">
             <EntityTypeMapping TypeName="Model.DownloadLog">
               <MappingFragment StoreEntitySet="DownloadLog">
+                <ScalarProperty Name="DownloadUserId" ColumnName="DownloadUserId" />
                 <ScalarProperty Name="DownloadDate" ColumnName="DownloadDate" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="ImageId" ColumnName="ImageId" />
@@ -235,6 +276,8 @@
           <EntitySetMapping Name="AspNetUsers">
             <EntityTypeMapping TypeName="Model.AspNetUser">
               <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
                 <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />

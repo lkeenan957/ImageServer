@@ -18,8 +18,10 @@ namespace ImageServer
         public Nullable<int> ImageId { get; set; }
         public string UserId { get; set; }
         public Nullable<System.DateTime> DownloadDate { get; set; }
+        public string DownloadUserId { get; set; }
     
         public virtual ImageUpload ImageUpload { get; set; }
         public virtual AspNetUser AspNetUser { get; set; }
+        public virtual AspNetUser AspNetUser1 { get; set; }
     }
 }
